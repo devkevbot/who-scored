@@ -12,7 +12,7 @@ import (
 // yesterdayCmd represents the yesterday command
 var yesterdayCmd = &cobra.Command{
 	Use:   "yesterday",
-	Short: "Find scores for NHL games scheduled for today",
+	Short: "Find scores for NHL games scheduled for yesterday",
 	Run: func(cmd *cobra.Command, args []string) {
 		schedule, err := api.GetScheduleForYesterday()
 		if err != nil {
