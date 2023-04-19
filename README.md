@@ -3,6 +3,10 @@ CLI to pretty-print the scores for NHL games in a given date range.
 
 ## Install
 
+### Releases
+
+Go to the [Releases page](https://github.com/devkevbot/who-scored/releases), download, and extract the latest version for your system.
+
 ### Building from source
 
 1. Build the project: `go build`
