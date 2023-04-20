@@ -13,7 +13,7 @@ import (
 func FormatScheduleAsTable(schedule *app.Schedule) {
 	scheduleTable := table.NewWriter()
 	scheduleTable.SetOutputMirror(os.Stdout)
-	scheduleTable.AppendHeader(table.Row{"START TIME", "AWAY TEAM (W-L)", "SCORE", "HOME TEAM (W-L)", "SCORE"})
+	scheduleTable.AppendHeader(table.Row{"START TIME", "AWAY TEAM (W-L)", "SCORE", "HOME TEAM (W-L)", "SCORE", "STATUS"})
 
 	for _, date := range schedule.Dates {
 		for _, game := range date.Games {
@@ -39,6 +39,7 @@ func FormatScheduleAsTable(schedule *app.Schedule) {
 					game.Teams.Home.LeagueRecord.Losses,
 				),
 				game.Teams.Home.Score,
+				game.Status.DetailedState,
 			})
 		}
 	}
