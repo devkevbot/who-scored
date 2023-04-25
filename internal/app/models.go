@@ -1,5 +1,12 @@
 package app
 
+import (
+	"fmt"
+	"time"
+
+	"github.com/jedib0t/go-pretty/v6/table"
+)
+
 type Schedule struct {
 	Copyright    string   `json:"copyright"`
 	TotalItems   int64    `json:"totalItems"`
@@ -9,6 +16,52 @@ type Schedule struct {
 	MetaData     MetaData `json:"metaData"`
 	Wait         int64    `json:"wait"`
 	Dates        []Date   `json:"dates"`
+}
+
+func (schedule *Schedule) String() string {
+	scheduleTable := table.NewWriter()
+	scheduleTable.AppendHeader(table.Row{"START TIME", "AWAY TEAM (W-L)", "SCORE", "HOME TEAM (W-L)", "SCORE", "STATUS"})
+
+	for _, date := range schedule.Dates {
+		for _, game := range date.Games {
+			localTime, err := formatIsoDateAsLocalTime(game.GameDate)
+			if err != nil {
+				fmt.Println("Couldn't parse game start time!", err)
+			}
+			if localTime == nil {
+				localTime = new(string)
+			}
+
+			scheduleTable.AppendRow(table.Row{
+				*localTime,
+				fmt.Sprintf("%s (%d-%d)",
+					game.Teams.Away.Team.Name,
+					game.Teams.Away.LeagueRecord.Wins,
+					game.Teams.Away.LeagueRecord.Losses,
+				),
+				game.Teams.Away.Score,
+				fmt.Sprintf("%s (%d-%d)",
+					game.Teams.Home.Team.Name,
+					game.Teams.Home.LeagueRecord.Wins,
+					game.Teams.Home.LeagueRecord.Losses,
+				),
+				game.Teams.Home.Score,
+				game.Status.DetailedState,
+			})
+		}
+	}
+
+	return scheduleTable.Render()
+}
+
+func formatIsoDateAsLocalTime(isoDate string) (*string, error) {
+	parsedIsoDate, err := time.Parse(time.RFC3339, isoDate)
+	if err != nil {
+		return nil, err
+	}
+
+	localTime := parsedIsoDate.Local().Format("02 Jan 06 15:04 MST")
+	return &localTime, nil
 }
 
 type Date struct {

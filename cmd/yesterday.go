@@ -5,7 +5,6 @@ import (
 	"os"
 
 	"github.com/devkevbot/who-scored/internal/pkg/api"
-	"github.com/devkevbot/who-scored/internal/pkg/utils"
 	"github.com/spf13/cobra"
 )
 
@@ -19,7 +18,7 @@ var yesterdayCmd = &cobra.Command{
 			fmt.Println(err)
 			os.Exit(1)
 		}
-		utils.FormatScheduleAsTable(schedule)
+		fmt.Println(schedule)
 	},
 }
 

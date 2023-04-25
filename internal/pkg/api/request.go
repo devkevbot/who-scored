@@ -4,9 +4,9 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"time"
 
 	"github.com/devkevbot/who-scored/internal/app"
-	"github.com/devkevbot/who-scored/internal/pkg/utils"
 )
 
 func GetScheduleForToday() (*app.Schedule, error) {
@@ -14,7 +14,7 @@ func GetScheduleForToday() (*app.Schedule, error) {
 }
 
 func GetScheduleForYesterday() (*app.Schedule, error) {
-	yesterday := utils.GetYesterdayYearMonthDay()
+	yesterday := getYesterdayYearMonthDay()
 	dateRange := &DateRange{
 		StartDate: yesterday,
 		EndDate:   yesterday,
@@ -54,4 +54,17 @@ func getSchedule(dateRange *DateRange) (*app.Schedule, error) {
 	}
 
 	return &schedule, nil
+}
+
+// Returns yesterday's year, month, and day formatted as YYYY-MM-DD
+func getYesterdayYearMonthDay() string {
+	today := time.Now()
+
+	yesterday := today.Add(time.Hour * -24)
+
+	year := yesterday.Year()
+	month := fmt.Sprintf("%02d", yesterday.Month())
+	day := yesterday.Day()
+
+	return fmt.Sprintf("%d-%v-%d", year, month, day)
 }
