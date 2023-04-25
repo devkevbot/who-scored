@@ -22,6 +22,14 @@ func GetScheduleForYesterday() (*app.Schedule, error) {
 	return getSchedule(dateRange)
 }
 
+func GetScheduleForDate(inputDate string) (*app.Schedule, error) {
+	dateRange := &DateRange{
+		StartDate: inputDate,
+		EndDate:   inputDate,
+	}
+	return getSchedule(dateRange)
+}
+
 type DateRange struct {
 	StartDate string
 	EndDate   string

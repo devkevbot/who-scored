@@ -111,9 +111,10 @@ type Away struct {
 }
 
 type LeagueRecord struct {
-	Wins   int64  `json:"wins"`
-	Losses int64  `json:"losses"`
-	Type   string `json:"type"`
+	Wins     int64  `json:"wins"`
+	Losses   int64  `json:"losses"`
+	Overtime int64  `json:"ot"`
+	Type     string `json:"type"`
 }
 
 type Venue struct {
