@@ -34,37 +34,11 @@ func (schedule *Schedule) String() string {
 
 	for _, date := range schedule.Dates {
 		for _, game := range date.Games {
-			localTime, err := formatIsoDateAsLocalTime(game.GameDate)
-			if err != nil {
-				fmt.Println("Couldn't parse game start time!", err)
-			}
-			if localTime == nil {
-				localTime = new(string)
-			}
-
-			t.AppendRow(table.Row{
-				game.gameTypeCol(),
-				*localTime,
-				game.awayTeamCol(),
-				game.awayTeamScoreCol(),
-				game.homeTeamCol(),
-				game.homeTeamScoreCol(),
-				game.statusCol(),
-			})
+			t.AppendRow(game.toRow())
 		}
 	}
 
 	return t.Render()
-}
-
-func formatIsoDateAsLocalTime(isoDate string) (*string, error) {
-	parsedIsoDate, err := time.Parse(time.RFC3339, isoDate)
-	if err != nil {
-		return nil, err
-	}
-
-	localTime := parsedIsoDate.Local().Format("02 Jan 06 15:04 MST")
-	return &localTime, nil
 }
 
 type Date struct {
@@ -79,19 +53,40 @@ type Date struct {
 }
 
 type Game struct {
-	GamePk   int64   `json:"gamePk"`
-	Link     string  `json:"link"`
-	GameType string  `json:"gameType"`
-	Season   string  `json:"season"`
-	GameDate string  `json:"gameDate"`
-	Status   Status  `json:"status"`
-	Teams    Teams   `json:"teams"`
-	Venue    Venue   `json:"venue"`
-	Content  Content `json:"content"`
+	GamePk   int64        `json:"gamePk"`
+	Link     string       `json:"link"`
+	GameType string       `json:"gameType"`
+	Season   string       `json:"season"`
+	GameDate string       `json:"gameDate"`
+	Status   Status       `json:"status"`
+	Teams    Teams        `json:"teams"`
+	Venue    ApiBaseModel `json:"venue"`
+	Content  Content      `json:"content"`
+}
+
+func (game *Game) toRow() table.Row {
+	return table.Row{
+		game.gameTypeCol(),
+		game.startTimeCol(),
+		game.awayTeamCol(),
+		game.awayTeamScoreCol(),
+		game.homeTeamCol(),
+		game.homeTeamScoreCol(),
+		game.statusCol(),
+	}
 }
 
 func (game *Game) gameTypeCol() string {
 	return parseGameType(game.GameType)
+}
+
+func (game *Game) startTimeCol() string {
+	localTime, err := formatIsoDateAsLocalTime(game.GameDate)
+	if err != nil {
+		fmt.Println("Couldn't parse game start time!", err)
+		return ""
+	}
+	return localTime
 }
 
 func (game *Game) isPlayoffGame() bool {
@@ -196,6 +191,16 @@ func parseGameType(gameType string) string {
 	return gameTypeAbbrToFullName[gameType]
 }
 
+func formatIsoDateAsLocalTime(isoDate string) (string, error) {
+	parsedIsoDate, err := time.Parse(time.RFC3339, isoDate)
+	if err != nil {
+		return "", err
+	}
+
+	localTime := parsedIsoDate.Local().Format("02 Jan 06 15:04 MST")
+	return localTime, nil
+}
+
 type Content struct {
 	Link string `json:"link"`
 }
@@ -209,14 +214,14 @@ type Status struct {
 }
 
 type Teams struct {
-	Away Away `json:"away"`
-	Home Away `json:"home"`
+	Away Team `json:"away"`
+	Home Team `json:"home"`
 }
 
-type Away struct {
+type Team struct {
 	LeagueRecord LeagueRecord `json:"leagueRecord"`
 	Score        int64        `json:"score"`
-	Team         Venue        `json:"team"`
+	Team         ApiBaseModel `json:"team"`
 }
 
 type LeagueRecord struct {
@@ -226,7 +231,7 @@ type LeagueRecord struct {
 	Type     string `json:"type"`
 }
 
-type Venue struct {
+type ApiBaseModel struct {
 	ID   int64  `json:"id"`
 	Name string `json:"name"`
 	Link string `json:"link"`
