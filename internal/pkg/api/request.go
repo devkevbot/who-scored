@@ -22,10 +22,18 @@ func GetScheduleForYesterday() (*app.Schedule, error) {
 	return getSchedule(dateRange)
 }
 
-func GetScheduleForDate(inputDate string) (*app.Schedule, error) {
+func GetScheduleForSingleDay(inputDate string) (*app.Schedule, error) {
 	dateRange := &DateRange{
 		StartDate: inputDate,
 		EndDate:   inputDate,
+	}
+	return getSchedule(dateRange)
+}
+
+func GetScheduleForDateRange(startDate, endDate string) (*app.Schedule, error) {
+	dateRange := &DateRange{
+		StartDate: startDate,
+		EndDate:   endDate,
 	}
 	return getSchedule(dateRange)
 }
@@ -35,7 +43,7 @@ type DateRange struct {
 	EndDate   string
 }
 
-// Gets the NHL schedule for today.
+// Gets the NHL schedule for the date range.
 func getSchedule(dateRange *DateRange) (*app.Schedule, error) {
 	url := "https://statsapi.web.nhl.com/api/v1/schedule"
 	if dateRange != nil {

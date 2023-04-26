@@ -12,12 +12,12 @@ import (
 
 // onCmd represents the on command
 var onCmd = &cobra.Command{
-	Use:   "on",
-	Args:  validateArgs,
-	Short: "Find scores for NHL games scheduled for on the given date in YYYY-MM-DD format",
+	Use:   "on <date>",
+	Args:  validateArgsOn,
+	Short: "Find scores for NHL games scheduled for the specified date. Date must be in YYYY-MM-DD format.",
 	Run: func(cmd *cobra.Command, args []string) {
 		inputDate := args[0]
-		schedule, err := api.GetScheduleForDate(inputDate)
+		schedule, err := api.GetScheduleForSingleDay(inputDate)
 		if err != nil {
 			fmt.Println(err)
 			os.Exit(1)
@@ -30,9 +30,9 @@ func init() {
 	rootCmd.AddCommand(onCmd)
 }
 
-func validateArgs(cmd *cobra.Command, args []string) error {
+func validateArgsOn(cmd *cobra.Command, args []string) error {
 	if len(args) != 1 {
-		return errors.New("expected only a date in YYYY-MM-DD format, but received more arguments")
+		return errors.New("expected one argument: a date")
 	}
 
 	now := time.Now()

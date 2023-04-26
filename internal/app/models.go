@@ -20,6 +20,10 @@ type Schedule struct {
 }
 
 func (schedule *Schedule) String() string {
+	if schedule.TotalGames == 0 {
+		return "No game data was available for the requested date range."
+	}
+
 	t := table.NewWriter()
 	t.AppendHeader(table.Row{
 		"GAME TYPE",
@@ -33,9 +37,11 @@ func (schedule *Schedule) String() string {
 	t.SuppressEmptyColumns()
 
 	for _, date := range schedule.Dates {
+		t.AppendSeparator()
 		for _, game := range date.Games {
 			t.AppendRow(game.toRow())
 		}
+
 	}
 
 	return t.Render()
