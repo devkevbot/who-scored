@@ -33,14 +33,13 @@ who-scored today
 #### Example output
 
 ```
-+---------------------+--------------------------+-------+---------------------------+-------+-------------+
-| START TIME          | AWAY TEAM (W-L)          | SCORE | HOME TEAM (W-L)           | SCORE | STATUS      |
-+---------------------+--------------------------+-------+---------------------------+-------+-------------+
-| 19 Apr 23 18:30 PDT | Minnesota Wild (1-0)     |     3 | Dallas Stars (0-1)        |     6 | In Progress |
-| 19 Apr 23 19:00 PDT | Los Angeles Kings (1-0)  |     0 | Edmonton Oilers (0-1)     |     2 | In Progress |
-| 19 Apr 23 16:00 PDT | New York Islanders (0-2) |     3 | Carolina Hurricanes (2-0) |     4 | Final       |
-| 19 Apr 23 16:30 PDT | Florida Panthers (1-1)   |     6 | Boston Bruins (1-1)       |     3 | Final       |
-+---------------------+--------------------------+-------+---------------------------+-------+-------------+
++-----------+---------------------+--------------------------+-------+---------------------------+-------+-------------+
+| GAME TYPE | START TIME          | AWAY TEAM (RECORD)       | SCORE | HOME TEAM (RECORD)        | SCORE | STATUS      |
++-----------+---------------------+--------------------------+-------+---------------------------+-------+-------------+
+| Playoffs  | 25 Apr 23 16:00 PDT | New York Islanders (1-3) | 2     | Carolina Hurricanes (3-1) | 1     | In Progress |
+| Playoffs  | 25 Apr 23 17:00 PDT | Minnesota Wild (2-2)     | 0     | Dallas Stars (2-2)        | 2     | In Progress |
+| Playoffs  | 25 Apr 23 18:30 PDT | Los Angeles Kings (2-2)  | 0     | Edmonton Oilers (2-2)     | 0     | Scheduled   |
++-----------+---------------------+--------------------------+-------+---------------------------+-------+-------------+
 ```
 
 ---
@@ -54,14 +53,14 @@ who-scored yesterday
 #### Example output
 
 ```
-+---------------------+---------------------------+-------+----------------------------+-------+--------+
-| START TIME          | AWAY TEAM (W-L)           | SCORE | HOME TEAM (W-L)            | SCORE | STATUS |
-+---------------------+---------------------------+-------+----------------------------+-------+--------+
-| 18 Apr 23 16:00 PDT | New York Rangers (1-0)    |     5 | New Jersey Devils (0-1)    |     1 | Final  |
-| 18 Apr 23 16:30 PDT | Tampa Bay Lightning (1-0) |     7 | Toronto Maple Leafs (0-1)  |     3 | Final  |
-| 18 Apr 23 18:30 PDT | Winnipeg Jets (1-0)       |     5 | Vegas Golden Knights (0-1) |     1 | Final  |
-| 18 Apr 23 19:00 PDT | Seattle Kraken (1-0)      |     3 | Colorado Avalanche (0-1)   |     1 | Final  |
-+---------------------+---------------------------+-------+----------------------------+-------+--------+
++-----------+---------------------+----------------------------+-------+---------------------------+-------+--------+
+| GAME TYPE | START TIME          | AWAY TEAM (RECORD)         | SCORE | HOME TEAM (RECORD)        | SCORE | STATUS |
++-----------+---------------------+----------------------------+-------+---------------------------+-------+--------+
+| Playoffs  | 24 Apr 23 16:00 PDT | New Jersey Devils (2-2)    | 3     | New York Rangers (2-2)    | 1     | Final  |
+| Playoffs  | 24 Apr 23 16:30 PDT | Toronto Maple Leafs (3-1)  | 5     | Tampa Bay Lightning (1-3) | 4     | Final  |
+| Playoffs  | 24 Apr 23 18:30 PDT | Vegas Golden Knights (3-1) | 4     | Winnipeg Jets (1-3)       | 2     | Final  |
+| Playoffs  | 24 Apr 23 19:00 PDT | Colorado Avalanche (2-2)   | 2     | Seattle Kraken (2-2)      | 3     | Final  |
++-----------+---------------------+----------------------------+-------+---------------------------+-------+--------+
 ```
 
 ### Print scores for an arbitrary date in the past
@@ -73,23 +72,19 @@ who-scored on 2023-03-16
 #### Example output
 
 ```
-+---------------------+------------------------------+-------+-------------------------------+-------+--------+
-| START TIME          | AWAY TEAM (W-L)              | SCORE | HOME TEAM (W-L)               | SCORE | STATUS |
-+---------------------+------------------------------+-------+-------------------------------+-------+--------+
-| 13 Apr 23 16:00 PDT | Boston Bruins (65-12)        |     5 | Montréal Canadiens (31-45)    |     4 | Final  |
-| 13 Apr 23 16:00 PDT | Carolina Hurricanes (52-21)  |     6 | Florida Panthers (42-32)      |     4 | Final  |
-| 13 Apr 23 16:00 PDT | Detroit Red Wings (35-37)    |     0 | Tampa Bay Lightning (46-30)   |     5 | Final  |
-| 13 Apr 23 16:00 PDT | New Jersey Devils (52-22)    |     5 | Washington Capitals (35-37)   |     4 | Final  |
-| 13 Apr 23 16:00 PDT | Ottawa Senators (39-35)      |     3 | Buffalo Sabres (41-33)        |     4 | Final  |
-| 13 Apr 23 16:00 PDT | Pittsburgh Penguins (40-31)  |     2 | Columbus Blue Jackets (25-47) |     3 | Final  |
-| 13 Apr 23 16:00 PDT | Toronto Maple Leafs (50-21)  |     3 | New York Rangers (47-22)      |     2 | Final  |
-| 13 Apr 23 17:00 PDT | Winnipeg Jets (46-33)        |     2 | Colorado Avalanche (50-24)    |     4 | Final  |
-| 13 Apr 23 17:00 PDT | Minnesota Wild (46-25)       |     3 | Nashville Predators (42-31)   |     4 | Final  |
-| 13 Apr 23 17:00 PDT | St. Louis Blues (37-38)      |     0 | Dallas Stars (47-21)          |     1 | Final  |
-| 13 Apr 23 17:30 PDT | Philadelphia Flyers (31-38)  |     5 | Chicago Blackhawks (26-49)    |     4 | Final  |
-| 13 Apr 23 18:00 PDT | San Jose Sharks (22-44)      |     2 | Edmonton Oilers (50-23)       |     5 | Final  |
-| 13 Apr 23 19:00 PDT | Los Angeles Kings (47-25)    |     5 | Anaheim Ducks (23-47)         |     3 | Final  |
-| 13 Apr 23 19:00 PDT | Vancouver Canucks (38-37)    |     5 | Arizona Coyotes (28-40)       |     4 | Final  |
-| 13 Apr 23 19:30 PDT | Vegas Golden Knights (51-22) |     3 | Seattle Kraken (46-28)        |     1 | Final  |
-+---------------------+------------------------------+-------+-------------------------------+-------+--------+
++----------------+---------------------+--------+---------------------------------+-------+--------------------------------+-------+
+| GAME TYPE      | START TIME          | STATUS | AWAY TEAM (RECORD)              | SCORE | HOME TEAM (RECORD)             | SCORE |
++----------------+---------------------+--------+---------------------------------+-------+--------------------------------+-------+
+| Regular Season | 16 Mar 23 16:00 PDT | Final  | Colorado Avalanche (39-22-6)    | 5     | Ottawa Senators (33-31-4)      | 4     |
+| Regular Season | 16 Mar 23 16:00 PDT | Final  | Montréal Canadiens (27-36-6)    | 5     | Florida Panthers (34-27-7)     | 9     |
+| Regular Season | 16 Mar 23 16:00 PDT | Final  | Pittsburgh Penguins (34-24-10)  | 2     | New York Rangers (39-19-10)    | 4     |
+| Regular Season | 16 Mar 23 16:00 PDT | Final  | Tampa Bay Lightning (41-22-6)   | 4     | New Jersey Devils (44-17-7)    | 3     |
+| Regular Season | 16 Mar 23 17:00 PDT | Final  | Boston Bruins (51-11-5)         | 3     | Winnipeg Jets (38-28-3)        | 0     |
+| Regular Season | 16 Mar 23 17:00 PDT | Final  | Chicago Blackhawks (24-38-6)    | 2     | Nashville Predators (34-25-7)  | 1     |
+| Regular Season | 16 Mar 23 18:00 PDT | Final  | Dallas Stars (37-19-13)         | 1     | Edmonton Oilers (38-23-8)      | 4     |
+| Regular Season | 16 Mar 23 19:00 PDT | Final  | Calgary Flames (31-24-14)       | 7     | Vegas Golden Knights (42-21-6) | 2     |
+| Regular Season | 16 Mar 23 19:00 PDT | Final  | Vancouver Canucks (29-33-5)     | 2     | Arizona Coyotes (26-32-11)     | 3     |
+| Regular Season | 16 Mar 23 19:30 PDT | Final  | Columbus Blue Jackets (21-39-7) | 1     | Los Angeles Kings (40-20-9)    | 4     |
+| Regular Season | 16 Mar 23 19:30 PDT | Final  | Seattle Kraken (38-23-7)        | 2     | San Jose Sharks (19-36-14)     | 1     |
++----------------+---------------------+--------+---------------------------------+-------+--------------------------------+-------+
 ```

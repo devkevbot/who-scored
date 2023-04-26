@@ -2,6 +2,7 @@ package app
 
 import (
 	"fmt"
+	"strconv"
 	"time"
 
 	"github.com/jedib0t/go-pretty/v6/table"
@@ -19,8 +20,17 @@ type Schedule struct {
 }
 
 func (schedule *Schedule) String() string {
-	scheduleTable := table.NewWriter()
-	scheduleTable.AppendHeader(table.Row{"START TIME", "AWAY TEAM (W-L)", "SCORE", "HOME TEAM (W-L)", "SCORE", "STATUS"})
+	t := table.NewWriter()
+	t.AppendHeader(table.Row{
+		"GAME TYPE",
+		"START TIME",
+		"AWAY TEAM (RECORD)",
+		"SCORE",
+		"HOME TEAM (RECORD)",
+		"SCORE",
+		"STATUS",
+	})
+	t.SuppressEmptyColumns()
 
 	for _, date := range schedule.Dates {
 		for _, game := range date.Games {
@@ -32,26 +42,19 @@ func (schedule *Schedule) String() string {
 				localTime = new(string)
 			}
 
-			scheduleTable.AppendRow(table.Row{
+			t.AppendRow(table.Row{
+				game.gameTypeCol(),
 				*localTime,
-				fmt.Sprintf("%s (%d-%d)",
-					game.Teams.Away.Team.Name,
-					game.Teams.Away.LeagueRecord.Wins,
-					game.Teams.Away.LeagueRecord.Losses,
-				),
-				game.Teams.Away.Score,
-				fmt.Sprintf("%s (%d-%d)",
-					game.Teams.Home.Team.Name,
-					game.Teams.Home.LeagueRecord.Wins,
-					game.Teams.Home.LeagueRecord.Losses,
-				),
-				game.Teams.Home.Score,
-				game.Status.DetailedState,
+				game.awayTeamCol(),
+				game.awayTeamScoreCol(),
+				game.homeTeamCol(),
+				game.homeTeamScoreCol(),
+				game.statusCol(),
 			})
 		}
 	}
 
-	return scheduleTable.Render()
+	return t.Render()
 }
 
 func formatIsoDateAsLocalTime(isoDate string) (*string, error) {
@@ -85,6 +88,112 @@ type Game struct {
 	Teams    Teams   `json:"teams"`
 	Venue    Venue   `json:"venue"`
 	Content  Content `json:"content"`
+}
+
+func (game *Game) gameTypeCol() string {
+	return parseGameType(game.GameType)
+}
+
+func (game *Game) isPlayoffGame() bool {
+	return parseGameType(game.GameType) == "Playoffs"
+}
+
+func (game *Game) statusCol() string {
+	return game.Status.DetailedState
+}
+
+func (game *Game) awayTeamCol() string {
+	if game.isPlayoffGame() {
+		return fmt.Sprintf(
+			"%s (%s-%s)",
+			game.awayTeamName(),
+			game.awayTeamWins(),
+			game.awayTeamLosses(),
+		)
+	}
+
+	return fmt.Sprintf(
+		"%s (%s-%s-%s)",
+		game.awayTeamName(),
+		game.awayTeamWins(),
+		game.awayTeamLosses(),
+		game.awayTeamOvertimeLosses(),
+	)
+}
+
+func (game *Game) awayTeamName() string {
+	return game.Teams.Away.Team.Name
+}
+
+func (game *Game) awayTeamWins() string {
+	return strconv.FormatInt(game.Teams.Away.LeagueRecord.Wins, 10)
+}
+
+func (game *Game) awayTeamLosses() string {
+	return strconv.FormatInt(game.Teams.Away.LeagueRecord.Losses, 10)
+}
+
+func (game *Game) awayTeamOvertimeLosses() string {
+	if game.isPlayoffGame() {
+		return ""
+	}
+	return strconv.FormatInt(game.Teams.Away.LeagueRecord.Overtime, 10)
+}
+
+func (game *Game) awayTeamScoreCol() string {
+	return strconv.FormatInt(game.Teams.Away.Score, 10)
+}
+
+func (game *Game) homeTeamCol() string {
+	if game.isPlayoffGame() {
+		return fmt.Sprintf(
+			"%s (%s-%s)",
+			game.homeTeamName(),
+			game.homeTeamWins(),
+			game.homeTeamLosses(),
+		)
+	}
+
+	return fmt.Sprintf(
+		"%s (%s-%s-%s)",
+		game.homeTeamName(),
+		game.homeTeamWins(),
+		game.homeTeamLosses(),
+		game.homeTeamOvertimeLosses(),
+	)
+}
+
+func (game *Game) homeTeamName() string {
+	return game.Teams.Home.Team.Name
+}
+
+func (game *Game) homeTeamWins() string {
+	return strconv.FormatInt(game.Teams.Home.LeagueRecord.Wins, 10)
+}
+
+func (game *Game) homeTeamLosses() string {
+	return strconv.FormatInt(game.Teams.Home.LeagueRecord.Losses, 10)
+}
+
+func (game *Game) homeTeamOvertimeLosses() string {
+	if game.isPlayoffGame() {
+		return ""
+	}
+	return strconv.FormatInt(game.Teams.Home.LeagueRecord.Overtime, 10)
+}
+
+func (game *Game) homeTeamScoreCol() string {
+	return strconv.FormatInt(game.Teams.Home.Score, 10)
+}
+
+var gameTypeAbbrToFullName = map[string]string{
+	"P":  "Playoffs",
+	"R":  "Regular Season",
+	"PR": "Pre-season",
+}
+
+func parseGameType(gameType string) string {
+	return gameTypeAbbrToFullName[gameType]
 }
 
 type Content struct {
