@@ -72,19 +72,19 @@ who-scored on 2023-03-16
 #### Example output
 
 ```
-+----------------+---------------------+--------+---------------------------------+-------+--------------------------------+-------+
-| GAME TYPE      | START TIME          | STATUS | AWAY TEAM (RECORD)              | SCORE | HOME TEAM (RECORD)             | SCORE |
-+----------------+---------------------+--------+---------------------------------+-------+--------------------------------+-------+
-| Regular Season | 16 Mar 23 16:00 PDT | Final  | Colorado Avalanche (39-22-6)    | 5     | Ottawa Senators (33-31-4)      | 4     |
-| Regular Season | 16 Mar 23 16:00 PDT | Final  | Montréal Canadiens (27-36-6)    | 5     | Florida Panthers (34-27-7)     | 9     |
-| Regular Season | 16 Mar 23 16:00 PDT | Final  | Pittsburgh Penguins (34-24-10)  | 2     | New York Rangers (39-19-10)    | 4     |
-| Regular Season | 16 Mar 23 16:00 PDT | Final  | Tampa Bay Lightning (41-22-6)   | 4     | New Jersey Devils (44-17-7)    | 3     |
-| Regular Season | 16 Mar 23 17:00 PDT | Final  | Boston Bruins (51-11-5)         | 3     | Winnipeg Jets (38-28-3)        | 0     |
-| Regular Season | 16 Mar 23 17:00 PDT | Final  | Chicago Blackhawks (24-38-6)    | 2     | Nashville Predators (34-25-7)  | 1     |
-| Regular Season | 16 Mar 23 18:00 PDT | Final  | Dallas Stars (37-19-13)         | 1     | Edmonton Oilers (38-23-8)      | 4     |
-| Regular Season | 16 Mar 23 19:00 PDT | Final  | Calgary Flames (31-24-14)       | 7     | Vegas Golden Knights (42-21-6) | 2     |
-| Regular Season | 16 Mar 23 19:00 PDT | Final  | Vancouver Canucks (29-33-5)     | 2     | Arizona Coyotes (26-32-11)     | 3     |
-| Regular Season | 16 Mar 23 19:30 PDT | Final  | Columbus Blue Jackets (21-39-7) | 1     | Los Angeles Kings (40-20-9)    | 4     |
-| Regular Season | 16 Mar 23 19:30 PDT | Final  | Seattle Kraken (38-23-7)        | 2     | San Jose Sharks (19-36-14)     | 1     |
-+----------------+---------------------+--------+---------------------------------+-------+--------------------------------+-------+
++----------------+---------------------+---------------------------------+-------+--------------------------------+-------+--------+
+| GAME TYPE      | START TIME          | AWAY TEAM (RECORD)              | SCORE | HOME TEAM (RECORD)             | SCORE | STATUS |
++----------------+---------------------+---------------------------------+-------+--------------------------------+-------+--------+
+| Regular Season | 16 Mar 23 16:00 PDT | Colorado Avalanche (39-22-6)    | 5     | Ottawa Senators (33-31-4)      | 4     | Final  |
+| Regular Season | 16 Mar 23 16:00 PDT | Montréal Canadiens (27-36-6)    | 5     | Florida Panthers (34-27-7)     | 9     | Final  |
+| Regular Season | 16 Mar 23 16:00 PDT | Pittsburgh Penguins (34-24-10)  | 2     | New York Rangers (39-19-10)    | 4     | Final  |
+| Regular Season | 16 Mar 23 16:00 PDT | Tampa Bay Lightning (41-22-6)   | 4     | New Jersey Devils (44-17-7)    | 3     | Final  |
+| Regular Season | 16 Mar 23 17:00 PDT | Boston Bruins (51-11-5)         | 3     | Winnipeg Jets (38-28-3)        | 0     | Final  |
+| Regular Season | 16 Mar 23 17:00 PDT | Chicago Blackhawks (24-38-6)    | 2     | Nashville Predators (34-25-7)  | 1     | Final  |
+| Regular Season | 16 Mar 23 18:00 PDT | Dallas Stars (37-19-13)         | 1     | Edmonton Oilers (38-23-8)      | 4     | Final  |
+| Regular Season | 16 Mar 23 19:00 PDT | Calgary Flames (31-24-14)       | 7     | Vegas Golden Knights (42-21-6) | 2     | Final  |
+| Regular Season | 16 Mar 23 19:00 PDT | Vancouver Canucks (29-33-5)     | 2     | Arizona Coyotes (26-32-11)     | 3     | Final  |
+| Regular Season | 16 Mar 23 19:30 PDT | Columbus Blue Jackets (21-39-7) | 1     | Los Angeles Kings (40-20-9)    | 4     | Final  |
+| Regular Season | 16 Mar 23 19:30 PDT | Seattle Kraken (38-23-7)        | 2     | San Jose Sharks (19-36-14)     | 1     | Final  |
++----------------+---------------------+---------------------------------+-------+--------------------------------+-------+--------+
 ```
