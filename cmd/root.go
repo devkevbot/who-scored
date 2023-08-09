@@ -1,15 +1,18 @@
 package cmd
 
 import (
+	"fmt"
 	"os"
 
 	"github.com/spf13/cobra"
 )
 
+const CLI_NAME = "who-scored"
+
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
-	Use:   "who-scored",
-	Short: "who-scored finds the score of NHL games for a specific date",
+	Use:   CLI_NAME,
+	Short: fmt.Sprintf("%s finds the score of NHL games for a specific date", CLI_NAME),
 }
 
 // Execute adds all child commands to the root command and sets flags appropriately.

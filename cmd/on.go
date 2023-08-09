@@ -14,7 +14,7 @@ import (
 var onCmd = &cobra.Command{
 	Use:   "on <date>",
 	Args:  validateArgsOn,
-	Short: "Find scores for NHL games scheduled for the specified date. Date must be in YYYY-MM-DD format.",
+	Short: "Find scores for NHL games scheduled for a specific date",
 	Run: func(cmd *cobra.Command, args []string) {
 		inputDate := args[0]
 		schedule, err := api.GetScheduleForSingleDay(inputDate)

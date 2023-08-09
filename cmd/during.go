@@ -14,7 +14,7 @@ import (
 var duringCmd = &cobra.Command{
 	Use:   "during <start date> <end date>",
 	Args:  validateArgsDuring,
-	Short: "Find scores for NHL games scheduled between a start date and an end date. Dates must be in YYYY-MM-DD format",
+	Short: "Find scores for NHL games scheduled between a start date and an end date",
 	Run: func(cmd *cobra.Command, args []string) {
 		schedule, err := api.GetScheduleForDateRange(args[0], args[1])
 		if err != nil {
