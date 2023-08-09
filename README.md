@@ -3,7 +3,9 @@ A CLI application to output the scores for NHL games on a specific date.
 
 ## Install
 
-### Releases
+The program can either be installed from a release artifact or built locally.
+
+### Install From Releases
 
 Go to the [Releases page](https://github.com/devkevbot/who-scored/releases), download, and extract the latest version for your system.
 
