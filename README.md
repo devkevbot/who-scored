@@ -1,24 +1,10 @@
 # who-scored
-A CLI application to output the scores for NHL games on a specific date.
 
-## Install
-
-The program can either be installed from a release artifact or built locally.
-
-### Install From Releases
-
-Go to the [Releases page](https://github.com/devkevbot/who-scored/releases), download, and extract the latest version for your system.
-
-### Building from source
-
-1. Build the project: `go build`
-2. Run the binary: `./who-scored[.exe]`
-
----
+`who-scored` is a command line application that finds and displays scores for NHL games.
 
 ## Usage
 
-This guide assumes you have added the binary to `$PATH`.
+This guide assumes you have already [installed](#Install) the application.
 
 ### Help
 
@@ -73,10 +59,6 @@ who-scored yesterday
 
 #### Example input
 
-```
-who-scored on <date>
-```
-
 ```sh
 # Date must be in YYYY-MM-DD format
 who-scored on 2023-03-16
@@ -106,10 +88,6 @@ who-scored on 2023-03-16
 
 #### Example input
 
-```
-who scored during <start date> <end date>
-```
-
 ```sh
 # Both the start and end date must be in YYYY-MM-DD format
 who-scored during 2023-04-14 2023-04-18
@@ -135,3 +113,21 @@ who-scored during 2023-04-14 2023-04-18
 | Playoffs       | 18 Apr 23 19:00 PDT | Seattle Kraken (1-0)         | 3     | Colorado Avalanche (0-1)        | 1     | Final  |
 +----------------+---------------------+------------------------------+-------+---------------------------------+-------+--------+
 ```
+---
+
+## Install
+
+The program can either be installed from a release artifact or built locally.
+
+### Install from release artifact
+
+1. Go to the [Releases page](https://github.com/devkevbot/who-scored/releases), download, and extract the latest version for your system.
+2. Add the executable file to `$PATH`.
+
+### Building from source
+
+1. Clone the repository:
+   ```sh
+    https://github.com/devkevbot/who-scored.git
+    ```
+2. From the repository directory, build and install the project: `go install .`
