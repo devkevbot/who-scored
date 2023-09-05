@@ -3,11 +3,9 @@ package cmd
 import (
 	"errors"
 	"fmt"
-	"os"
-	"time"
-
 	"github.com/devkevbot/who-scored/internal/pkg/api"
 	"github.com/spf13/cobra"
+	"os"
 )
 
 // onCmd represents the on command
@@ -34,16 +32,5 @@ func validateArgsOn(cmd *cobra.Command, args []string) error {
 	if len(args) != 1 {
 		return errors.New("expected one argument: a date")
 	}
-
-	now := time.Now()
-	inputDate, err := time.Parse(time.DateOnly, args[0])
-	if err != nil {
-		return errors.New("couldn't parse the input as a date in YYYY-MM-DD format")
-	}
-
-	if inputDate.After(now) {
-		return errors.New("the input date occurs in the future")
-	}
-
 	return nil
 }
