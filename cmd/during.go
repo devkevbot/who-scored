@@ -3,7 +3,7 @@ package cmd
 import (
 	"errors"
 	"fmt"
-	"github.com/devkevbot/who-scored/internal/pkg/api"
+	"github.com/devkevbot/who-scored/internal/api"
 	"github.com/spf13/cobra"
 	"os"
 )

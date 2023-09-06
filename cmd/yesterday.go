@@ -2,9 +2,9 @@ package cmd
 
 import (
 	"fmt"
+	"github.com/devkevbot/who-scored/internal/api"
 	"os"
 
-	"github.com/devkevbot/who-scored/internal/pkg/api"
 	"github.com/spf13/cobra"
 )
 
