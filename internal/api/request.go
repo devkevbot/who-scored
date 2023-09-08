@@ -73,7 +73,7 @@ func GetScheduleForDateRange(startDate, endDate string) (*app.Schedule, error) {
 
 // Gets the NHL schedule for the date range.
 func getSchedule(dateRange *app.DateRange) (*app.Schedule, error) {
-	req, err := http.NewRequest("GET", nhlApiPath(dateRange), nil)
+	req, err := http.NewRequest("GET", nhlScheduleApiPath(dateRange), nil)
 	if err != nil {
 		return nil, fmt.Errorf("[getSchedule] error creating request: %w", err)
 	}
@@ -93,7 +93,7 @@ func getSchedule(dateRange *app.DateRange) (*app.Schedule, error) {
 	return &schedule, nil
 }
 
-func nhlApiPath(dateRange *app.DateRange) string {
+func nhlScheduleApiPath(dateRange *app.DateRange) string {
 	base := "https://statsapi.web.nhl.com/api/v1/schedule"
 	if dateRange == nil {
 		return base
@@ -109,7 +109,7 @@ func getYesterdayYearMonthDay() string {
 
 	year := yesterday.Year()
 	month := fmt.Sprintf("%02d", yesterday.Month())
-	day := yesterday.Day()
+	day := fmt.Sprintf("%02d", yesterday.Day())
 
-	return fmt.Sprintf("%d-%v-%d", year, month, day)
+	return fmt.Sprintf("%d-%v-%v", year, month, day)
 }

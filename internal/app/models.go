@@ -21,7 +21,7 @@ type Schedule struct {
 
 func (schedule *Schedule) String() string {
 	if schedule.TotalGames == 0 {
-		return "No game data was available for the requested date range."
+		return "No game data was available for the requested date(s)."
 	}
 
 	t := table.NewWriter()

@@ -16,37 +16,76 @@ type DateRange struct {
 }
 
 var (
-	ErrorNoDate           = errors.New("date is empty")
-	ErrorInvalidFormat    = errors.New("date is not formatted as YYYY-MM-DD")
-	ErrorFutureDate       = errors.New("date occurs in the future")
-	ErrorNotChronological = errors.New("start date occurs before the end date")
+	ErrStartDateEmpty = errors.New("start date is empty")
+	ErrEndDateEmpty   = errors.New("end date is empty")
+
+	// "Out of range" errors are different from "malformed" errors in the sense that
+	// the date is structurally correct but is otherwise invalid. Example: February 29th
+	// only exists on leap years.
+
+	ErrStartDateOutOfRange = errors.New("start date is not a valid date")
+	ErrEndDateOutOfRange   = errors.New("end date is not a valid date")
+
+	ErrStartDateMalformed = errors.New("start date is not formatted as YYYY-MM-DD")
+	ErrEndDateMalformed   = errors.New("end date is not formatted as YYYY-MM-DD")
+
+	ErrStartDateOccursInFuture = errors.New("start date occurs in the future")
+	ErrEndDateOccursInFuture   = errors.New("end date occurs in the future")
+
+	ErrNotChronological = errors.New("start date occurs before the end date")
 )
 
 func (d DateRange) Parse() error {
 	d.StartDate = strings.TrimSpace(d.StartDate)
 	d.EndDate = strings.TrimSpace(d.EndDate)
 
-	// Check if strings are non-empty
-	if d.StartDate == "" || d.EndDate == "" {
-		return fmt.Errorf("[DateRange.Parse] error: %w", ErrorNoDate)
+	// Check if start date is non-empty
+	if d.StartDate == "" {
+		return fmt.Errorf("[DateRange.Parse] error: %w", ErrStartDateEmpty)
 	}
 
-	// Check if dates are YYYY-MM-DD formatted
+	// Check if start date is YYYY-MM-DD formatted
 	startDate, startDateErr := time.Parse(time.DateOnly, d.StartDate)
-	endDate, endDateErr := time.Parse(time.DateOnly, d.EndDate)
-	if startDateErr != nil || endDateErr != nil {
-		return fmt.Errorf("[DateRange.Parse] error: %w", ErrorInvalidFormat)
+	if startDateErr != nil {
+		if strings.Contains(startDateErr.Error(), "out of range") {
+			return fmt.Errorf("[DateRange.Parse] error: %w", ErrStartDateOutOfRange)
+		}
+
+		return fmt.Errorf("[DateRange.Parse] error: %w", ErrStartDateMalformed)
 	}
 
-	// Check if start and end dates are not in the future
+	// Check if start date is not in the future
 	now := time.Now()
-	if startDate.After(now) || endDate.After(now) {
-		return fmt.Errorf("[DateRange.Parse] error: %w", ErrorFutureDate)
+	if startDate.After(now) {
+		return fmt.Errorf("[DateRange.Parse] error: %w", ErrStartDateOccursInFuture)
 	}
 
-	// Check if start and end dates are chronological
-	if startDate.After(endDate) {
-		return fmt.Errorf("[DateRange.Parse] error: %w", ErrorNotChronological)
+	// If the start date and end date are different, we must check the end date separately.
+	if d.StartDate != d.EndDate {
+		// Check if end date is non-empty
+		if d.EndDate == "" {
+			return fmt.Errorf("[DateRange.Parse] error: %w", ErrEndDateEmpty)
+		}
+
+		// Check if end date is YYYY-MM-DD formatted
+		endDate, endDateErr := time.Parse(time.DateOnly, d.EndDate)
+		if endDateErr != nil {
+			if strings.Contains(endDateErr.Error(), "out of range") {
+				return fmt.Errorf("[DateRange.Parse] error: %w", ErrEndDateOutOfRange)
+			}
+
+			return fmt.Errorf("[DateRange.Parse] error: %w", ErrEndDateMalformed)
+		}
+
+		// Check if end date is not in the future
+		if endDate.After(now) {
+			return fmt.Errorf("[DateRange.Parse] error: %w", ErrEndDateOccursInFuture)
+		}
+
+		// Check if start and end dates are chronological
+		if startDate.After(endDate) {
+			return fmt.Errorf("[DateRange.Parse] error: %w", ErrNotChronological)
+		}
 	}
 
 	return nil
