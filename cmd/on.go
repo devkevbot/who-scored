@@ -6,6 +6,7 @@ import (
 	"log"
 
 	"github.com/devkevbot/who-scored/internal/api"
+	"github.com/devkevbot/who-scored/internal/app"
 	"github.com/spf13/cobra"
 )
 
@@ -31,5 +32,6 @@ func validateArgsOn(cmd *cobra.Command, args []string) error {
 	if len(args) != 1 {
 		return errors.New("expected one argument: a date")
 	}
-	return nil
+
+	return app.ParseUserProvidedDate(args[0])
 }
