@@ -2,8 +2,9 @@ package cmd
 
 import (
 	"fmt"
+	"log"
+
 	"github.com/devkevbot/who-scored/internal/api"
-	"os"
 
 	"github.com/spf13/cobra"
 )
@@ -16,8 +17,7 @@ var todayCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		schedule, err := api.GetScheduleForToday()
 		if err != nil {
-			fmt.Println(err)
-			os.Exit(1)
+			log.Fatal(err)
 		}
 		fmt.Println(schedule)
 	},

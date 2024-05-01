@@ -3,9 +3,10 @@ package cmd
 import (
 	"errors"
 	"fmt"
+	"log"
+
 	"github.com/devkevbot/who-scored/internal/api"
 	"github.com/spf13/cobra"
-	"os"
 )
 
 // duringCmd represents the during command
@@ -16,8 +17,7 @@ var duringCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		schedule, err := api.GetScheduleForDateRange(args[0], args[1])
 		if err != nil {
-			fmt.Println(err)
-			os.Exit(1)
+			log.Fatal(err)
 		}
 		fmt.Println(schedule)
 	},

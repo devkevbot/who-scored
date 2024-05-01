@@ -80,10 +80,10 @@ func getSchedule(dateRange *app.DateRange) (*app.Schedule, error) {
 
 	client := &http.Client{}
 	resp, err := client.Do(req)
-	defer resp.Body.Close()
 	if err != nil {
 		return nil, fmt.Errorf("[getSchedule] error making request: %w", err)
 	}
+	defer resp.Body.Close()
 
 	var schedule app.Schedule
 	err = json.NewDecoder(resp.Body).Decode(&schedule)
