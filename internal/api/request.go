@@ -10,98 +10,71 @@ import (
 	"github.com/devkevbot/who-scored/internal/app"
 )
 
-// GetScheduleForToday retrieves the schedules for today's NHL games.
-func GetScheduleForToday() (*app.Schedule, error) {
-	schedule, err := getSchedule(nil)
+func GetScoresForToday() (*app.DailyScores, error) {
+	today := getTodayYearMonthDay()
+
+	scores, err := getScores(today)
 	if err != nil {
-		return nil, fmt.Errorf("unable to fetch NHL schedule for today: %w", errors.Unwrap(err))
+		return nil, fmt.Errorf("unable to fetch scores for today: %w", errors.Unwrap(err))
 	}
-	return schedule, nil
+	return scores, nil
 }
 
-// GetScheduleForYesterday retrieves the schedules for yesterday's NHL games.
-func GetScheduleForYesterday() (*app.Schedule, error) {
+func GetScoresForYesterday() (*app.DailyScores, error) {
 	yesterday := getYesterdayYearMonthDay()
-	dateRange := &app.DateRange{
-		StartDate: yesterday,
-		EndDate:   yesterday,
-	}
-	if err := dateRange.Parse(); err != nil {
-		return nil, fmt.Errorf("unable to fetch NHL schedule for yesterday: %w", errors.Unwrap(err))
-	}
 
-	schedule, err := getSchedule(dateRange)
+	scores, err := getScores(yesterday)
 	if err != nil {
-		return nil, fmt.Errorf("unable to fetch NHL schedule for yesterday: %w", errors.Unwrap(err))
+		return nil, fmt.Errorf("unable to fetch scores for yesterday: %w", errors.Unwrap(err))
 	}
-	return schedule, nil
+	return scores, nil
 }
 
-// GetScheduleForSingleDay retrieves the schedules for NHL games occurring on startDate.
-func GetScheduleForSingleDay(startDate string) (*app.Schedule, error) {
-	dateRange := &app.DateRange{
-		StartDate: startDate,
-		EndDate:   startDate,
-	}
-	if err := dateRange.Parse(); err != nil {
-		return nil, fmt.Errorf("unable to fetch NHL schedule for date: %w", errors.Unwrap(err))
-	}
-
-	schedule, err := getSchedule(dateRange)
+func GetScoresForSingleDay(date string) (*app.DailyScores, error) {
+	scores, err := getScores(date)
 	if err != nil {
-		return nil, fmt.Errorf("unable to fetch NHL schedule for date: %w", errors.Unwrap(err))
+		return nil, fmt.Errorf("unable to fetch scores for date: %w", errors.Unwrap(err))
 	}
-	return schedule, nil
+	return scores, nil
 }
 
-// GetScheduleForDateRange retrieves the schedules for NHL games occurring during the period formed by startDate and endDate.
-func GetScheduleForDateRange(startDate, endDate string) (*app.Schedule, error) {
-	dateRange := &app.DateRange{
-		StartDate: startDate,
-		EndDate:   endDate,
-	}
-	if err := dateRange.Parse(); err != nil {
-		return nil, fmt.Errorf("unable to fetch NHL schedule for date range: %w", errors.Unwrap(err))
-	}
-
-	schedule, err := getSchedule(dateRange)
+func getScores(date string) (*app.DailyScores, error) {
+	req, err := http.NewRequest("GET", nhlScoresApiPath(date), nil)
 	if err != nil {
-		return nil, fmt.Errorf("unable to fetch NHL schedule for date range: %w", errors.Unwrap(err))
-	}
-	return schedule, nil
-}
-
-// Gets the NHL schedule for the date range.
-func getSchedule(dateRange *app.DateRange) (*app.Schedule, error) {
-	req, err := http.NewRequest("GET", nhlScheduleApiPath(dateRange), nil)
-	if err != nil {
-		return nil, fmt.Errorf("[getSchedule] error creating request: %w", err)
+		return nil, fmt.Errorf("error creating request: %w", err)
 	}
 
 	client := &http.Client{}
 	resp, err := client.Do(req)
 	if err != nil {
-		return nil, fmt.Errorf("[getSchedule] error making request: %w", err)
+		return nil, fmt.Errorf("error making request: %w", err)
 	}
 	defer resp.Body.Close()
 
-	var schedule app.Schedule
-	err = json.NewDecoder(resp.Body).Decode(&schedule)
+	var scores app.DailyScores
+	err = json.NewDecoder(resp.Body).Decode(&scores)
 	if err != nil {
-		return nil, fmt.Errorf("[getSchedule] error decoding JSON response: %w", err)
+		return nil, fmt.Errorf("error decoding JSON response: %w", err)
 	}
-	return &schedule, nil
+	return &scores, nil
 }
 
-func nhlScheduleApiPath(dateRange *app.DateRange) string {
-	base := "https://statsapi.web.nhl.com/api/v1/schedule"
-	if dateRange == nil {
-		return base
-	}
-	return fmt.Sprintf("%s?startDate=%s&endDate=%s", base, dateRange.StartDate, dateRange.EndDate)
+func nhlScoresApiPath(date string) string {
+	base := "https://api-web.nhle.com/v1/score/"
+	return base + date
 }
 
-// Returns yesterday's year, month, and day formatted as YYYY-MM-DD
+func getTodayYearMonthDay() string {
+	today := time.Now()
+
+	year := today.Year()
+	month := fmt.Sprintf("%02d", today.Month())
+	day := fmt.Sprintf("%02d", today.Day())
+
+	return fmt.Sprintf("%d-%v-%v", year, month, day)
+
+}
+
 func getYesterdayYearMonthDay() string {
 	today := time.Now()
 

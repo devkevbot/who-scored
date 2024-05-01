@@ -9,18 +9,17 @@ import (
 	"github.com/spf13/cobra"
 )
 
-// onCmd represents the on command
 var onCmd = &cobra.Command{
 	Use:   "on <date>",
 	Args:  validateArgsOn,
 	Short: "Find scores for NHL games scheduled for a specific date",
 	Run: func(cmd *cobra.Command, args []string) {
 		inputDate := args[0]
-		schedule, err := api.GetScheduleForSingleDay(inputDate)
+		scores, err := api.GetScoresForSingleDay(inputDate)
 		if err != nil {
 			log.Fatal(err)
 		}
-		fmt.Println(schedule)
+		fmt.Println(scores)
 	},
 }
 

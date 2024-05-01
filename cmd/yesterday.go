@@ -4,22 +4,21 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/devkevbot/who-scored/internal/api"
-
 	"github.com/spf13/cobra"
+
+	"github.com/devkevbot/who-scored/internal/api"
 )
 
-// yesterdayCmd represents the yesterday command
 var yesterdayCmd = &cobra.Command{
 	Use:   "yesterday",
 	Args:  cobra.NoArgs,
 	Short: "Find scores for NHL games scheduled for yesterday",
 	Run: func(cmd *cobra.Command, args []string) {
-		schedule, err := api.GetScheduleForYesterday()
+		scores, err := api.GetScoresForYesterday()
 		if err != nil {
 			log.Fatal(err)
 		}
-		fmt.Println(schedule)
+		fmt.Println(scores)
 	},
 }
 
