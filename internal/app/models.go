@@ -2,6 +2,7 @@ package app
 
 import (
 	"fmt"
+	"strings"
 	"time"
 
 	"github.com/jedib0t/go-pretty/v6/table"
@@ -121,11 +122,13 @@ func (ds *DailyScores) String() string {
 	t := table.NewWriter()
 	t.AppendHeader(table.Row{
 		"GAME TYPE",
+		"PLAYOFF GAME",
+		"PLAYOFF SERIES",
 		"START TIME",
-		"AWAY TEAM",
+		"TEAMS",
 		"SCORE",
-		"HOME TEAM",
-		"SCORE",
+		"STATUS",
+		"GAME-WINNING GOAL",
 	})
 	t.SuppressEmptyColumns()
 
@@ -139,20 +142,30 @@ func (ds *DailyScores) String() string {
 func (g *Game) toRow() table.Row {
 	return table.Row{
 		g.getGameTypeName(),
+		g.getPlayoffGameNumber(),
+		g.getPlayoffSeriesStatus(),
 		g.getUserLocalStartTime(),
-		g.getAwayTeamName(),
-		g.getAwayTeamScore(),
-		g.getHomeTeamName(),
-		g.getHomeTeamScore(),
+		g.getTeams(),
+		g.getScore(),
+		g.getStatus(),
+		g.getGameWinningGoal(),
 	}
 }
 
 func (g *Game) getGameTypeName() string {
-	var gameTypeToName = map[int]string{
+	gameTypeToName := map[int]string{
+		1: "Preseason",
 		2: "Regular Season",
 		3: "Playoffs",
 	}
 	return gameTypeToName[g.GameType]
+}
+
+func (g *Game) getPlayoffGameNumber() string {
+	if g.SeriesStatus.Round < 1 {
+		return ""
+	}
+	return fmt.Sprintf("R%d, GM %d", g.SeriesStatus.Round, g.SeriesStatus.GameNumberOfSeries)
 }
 
 func (g *Game) getUserLocalStartTime() string {
@@ -163,14 +176,120 @@ func (g *Game) getAwayTeamName() string {
 	return g.AwayTeam.Name.Default
 }
 
-func (g *Game) getAwayTeamScore() string {
-	return fmt.Sprint(g.AwayTeam.Score)
+func (g *Game) getAwayTeamAbbrev() string {
+	return g.AwayTeam.Abbrev
+}
+
+func (g *Game) getAwayTeamScore() int {
+	return g.AwayTeam.Score
 }
 
 func (g *Game) getHomeTeamName() string {
 	return g.HomeTeam.Name.Default
 }
 
-func (g *Game) getHomeTeamScore() string {
-	return fmt.Sprint(g.HomeTeam.Score)
+func (g *Game) getHomeTeamAbbrev() string {
+	return g.HomeTeam.Abbrev
+}
+
+func (g *Game) getHomeTeamScore() int {
+	return g.HomeTeam.Score
+}
+
+func (g *Game) getTeams() string {
+	awayTeam := g.getAwayTeamName()
+	hometeam := g.getHomeTeamName()
+	team := awayTeam + " at " + hometeam
+	return team
+}
+
+func (g *Game) getStatus() string {
+	gameStateToDesc := map[string]string{
+		"LIVE":  "In-progress",
+		"FUT":   "Not started",
+		"PRE":   "Pre-game",
+		"OFF":   "Final",
+		"FINAL": "Final",
+	}
+
+	var output []string
+
+	gameStateDesc := gameStateToDesc[g.GameState]
+	output = append(output, gameStateDesc)
+
+	if g.PeriodDescriptor.PeriodType == "OT" {
+		otNum := g.PeriodDescriptor.Number % 3
+		if otNum == 1 {
+			output = append(output, "(OT)")
+		} else {
+			output = append(output, fmt.Sprintf("(%dOT)", otNum))
+		}
+	} else if g.PeriodDescriptor.PeriodType == "SO" {
+		output = append(output, "(SO)")
+	}
+
+	return strings.Join(output, " ")
+}
+
+func (g *Game) getScore() string {
+	awayScore := g.getAwayTeamScore()
+	homeScore := g.getHomeTeamScore()
+	awayAbbrev := g.getAwayTeamAbbrev()
+	homeAbbrev := g.getHomeTeamAbbrev()
+
+	if awayScore > homeScore {
+		return fmt.Sprintf("%d-%d %s", awayScore, homeScore, awayAbbrev)
+	}
+	if homeScore > awayScore {
+		return fmt.Sprintf("%d-%d %s", homeScore, awayScore, homeAbbrev)
+	}
+
+	return fmt.Sprintf("%d-%d TIE", awayScore, homeScore)
+}
+
+func (g *Game) getPlayoffSeriesStatus() string {
+	// Round 0 is non-playoff hockey
+	if g.SeriesStatus.Round < 1 {
+		return ""
+	}
+	if g.SeriesStatus.TopSeedWins == g.SeriesStatus.BottomSeedWins {
+		return fmt.Sprintf("TIED %d-%d", g.SeriesStatus.TopSeedWins, g.SeriesStatus.BottomSeedWins)
+	}
+	if g.SeriesStatus.TopSeedWins > g.SeriesStatus.BottomSeedWins {
+		return fmt.Sprintf("%s %d-%d", g.SeriesStatus.TopSeedTeamAbbrev, g.SeriesStatus.TopSeedWins, g.SeriesStatus.BottomSeedWins)
+	}
+	return fmt.Sprintf("%s %d-%d", g.SeriesStatus.BottomSeedTeamAbbrev, g.SeriesStatus.TopSeedWins, g.SeriesStatus.BottomSeedWins)
+}
+
+func (g *Game) getGameWinningGoal() string {
+	gwg := g.Goals[len(g.Goals)-1]
+
+	goalScorer := gwg.Name.Default
+	goalNumber := gwg.GoalsToDate
+
+	goalStrengthToDesc := map[string]string{
+		"pp": "PPG",
+		"sh": "SHG",
+	}
+	goalStrength := gwg.Strength
+
+	var output []string
+	output = append(output, fmt.Sprintf("%s (%d)", goalScorer, goalNumber))
+	if goalStrength != "ev" {
+		output = append(output, goalStrengthToDesc[gwg.Strength])
+	}
+
+	if len(gwg.Assists) > 0 {
+		var nameAndNumber []string
+		for _, assist := range gwg.Assists {
+			playerName := assist.Name.Default
+			assistNumber := assist.AssistsToDate
+			nameAndNumber = append(nameAndNumber, fmt.Sprintf("%s (%d)", playerName, assistNumber))
+		}
+		assistsStr := strings.Join(nameAndNumber, ", ")
+		output = append(output, "from")
+		output = append(output, assistsStr)
+	}
+
+	return strings.Join(output, " ")
 }
