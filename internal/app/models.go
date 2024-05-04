@@ -262,6 +262,10 @@ func (g *Game) getPlayoffSeriesStatus() string {
 }
 
 func (g *Game) getGameWinningGoal() string {
+	if len(g.Goals) == 0 {
+		return "(No Score)"
+	}
+
 	gwg := g.Goals[len(g.Goals)-1]
 
 	goalScorer := gwg.Name.Default
