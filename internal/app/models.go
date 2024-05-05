@@ -278,7 +278,6 @@ func (g *Game) getGameWinningGoal() string {
 	}
 
 	goalScorer := gwg.Name.Default
-	goalNumber := gwg.GoalsToDate
 
 	goalStrengthToDesc := map[string]string{
 		"pp": "PPG",
@@ -286,8 +285,13 @@ func (g *Game) getGameWinningGoal() string {
 	}
 	goalStrength := gwg.Strength
 
-	var output []string
-	output = append(output, fmt.Sprintf("%s (%d)", goalScorer, goalNumber))
+	output := []string{goalScorer}
+
+	gameDecidedInShootout := g.PeriodDescriptor.PeriodType == "SO"
+	if !gameDecidedInShootout {
+		goalNumber := gwg.GoalsToDate
+		output = append(output, fmt.Sprintf("(%d)", goalNumber))
+	}
 	if goalStrength != "ev" {
 		output = append(output, goalStrengthToDesc[gwg.Strength])
 	}
