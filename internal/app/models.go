@@ -258,7 +258,24 @@ func (g *Game) getGameWinningGoal() string {
 		return "(No Score)"
 	}
 
-	gwg := g.Goals[len(g.Goals)-1]
+	var gwg Goal
+	awayScore := g.getAwayTeamScore()
+	homeScore := g.getHomeTeamScore()
+	if awayScore > homeScore {
+		for _, goal := range g.Goals {
+			if goal.AwayScore == homeScore+1 {
+				gwg = goal
+				break
+			}
+		}
+	} else if homeScore > awayScore {
+		for _, goal := range g.Goals {
+			if goal.HomeScore == awayScore+1 {
+				gwg = goal
+				break
+			}
+		}
+	}
 
 	goalScorer := gwg.Name.Default
 	goalNumber := gwg.GoalsToDate
