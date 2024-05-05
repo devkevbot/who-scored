@@ -172,20 +172,12 @@ func (g *Game) getUserLocalStartTime() string {
 	return g.StartTimeUTC.Local().Format("02 Jan 06 15:04 MST")
 }
 
-func (g *Game) getAwayTeamName() string {
-	return g.AwayTeam.Name.Default
-}
-
 func (g *Game) getAwayTeamAbbrev() string {
 	return g.AwayTeam.Abbrev
 }
 
 func (g *Game) getAwayTeamScore() int {
 	return g.AwayTeam.Score
-}
-
-func (g *Game) getHomeTeamName() string {
-	return g.HomeTeam.Name.Default
 }
 
 func (g *Game) getHomeTeamAbbrev() string {
@@ -197,9 +189,9 @@ func (g *Game) getHomeTeamScore() int {
 }
 
 func (g *Game) getTeams() string {
-	awayTeam := g.getAwayTeamName()
-	hometeam := g.getHomeTeamName()
-	team := awayTeam + " at " + hometeam
+	awayAbbrev := g.getAwayTeamAbbrev()
+	homeAbbrev := g.getHomeTeamAbbrev()
+	team := awayAbbrev + " at " + homeAbbrev
 	return team
 }
 
@@ -244,7 +236,7 @@ func (g *Game) getScore() string {
 		return fmt.Sprintf("%d-%d %s", homeScore, awayScore, homeAbbrev)
 	}
 
-	return fmt.Sprintf("%d-%d TIE", awayScore, homeScore)
+	return fmt.Sprintf("%d-%d", awayScore, homeScore)
 }
 
 func (g *Game) getPlayoffSeriesStatus() string {
