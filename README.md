@@ -69,7 +69,7 @@ who-scored on 2023-03-16
 | Regular Season | 16 Mar 23 16:00 PDT | COL at OTT | 5-4 COL | Final      | L. Eller (8)                                                |
 | Regular Season | 16 Mar 23 16:00 PDT | MTL at FLA | 9-5 FLA | Final      | S. Reinhart (24) from J. Mahura (11)                        |
 | Regular Season | 16 Mar 23 16:00 PDT | PIT at NYR | 4-2 NYR | Final      | C. Kreider (29) from V. Trocheck (34), A. Fox (51)          |
-| Regular Season | 16 Mar 23 16:00 PDT | TBL at NJD | 4-3 TBL | Final (SO) | A. Killorn (22)                                             |
+| Regular Season | 16 Mar 23 16:00 PDT | TBL at NJD | 4-3 TBL | Final (SO) | A. Killorn                                                  |
 | Regular Season | 16 Mar 23 17:00 PDT | BOS at WPG | 3-0 BOS | Final      | T. Frederic (15) from T. Bertuzzi (13), C. Coyle (25)       |
 | Regular Season | 16 Mar 23 17:00 PDT | CHI at NSH | 2-1 CHI | Final      | J. Anderson (5) from B. Katchouk (7)                        |
 | Regular Season | 16 Mar 23 18:00 PDT | DAL at EDM | 4-1 EDM | Final      | M. Janmark (7) SHG from C. McDavid (74), V. Desharnais (5)  |
