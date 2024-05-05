@@ -238,6 +238,10 @@ func (g *Game) scoreCol() string {
 	return fmt.Sprintf("%d-%d", awayScore, homeScore)
 }
 
+func (g *Game) isOver() bool {
+	return g.GameState == "FINAL" || g.GameState == "OFF"
+}
+
 func (g *Game) statusCol() string {
 	gameStateToDesc := map[string]string{
 		"LIVE":  "In-progress",
@@ -267,7 +271,7 @@ func (g *Game) statusCol() string {
 }
 
 func (g *Game) gwgCol() string {
-	if g.statusCol() != "FINAL" {
+	if !g.isOver() {
 		return ""
 	}
 
