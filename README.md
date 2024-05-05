@@ -43,12 +43,12 @@ who-scored yesterday
 #### Example output
 
 ```
-+-----------+--------------+----------------+---------------------+------------+---------+--------+-------------------------------------------------------+
-| GAME TYPE | PLAYOFF GAME | PLAYOFF SERIES | START TIME          | TEAMS      | SCORE   | STATUS | GAME-WINNING GOAL                                     |
-+-----------+--------------+----------------+---------------------+------------+---------+--------+-------------------------------------------------------+
-| Playoffs  | R1, GM 6     | VAN 4-2        | 03 May 24 16:00 PDT | VAN at NSH | 1-0 VAN | Final  | P. Suter (2) from B. Boeser (2), E. Pettersson (3)    |
-| Playoffs  | R1, GM 6     | TIED 3-3       | 03 May 24 19:00 PDT | DAL at VGK | 2-0 VGK | Final  | M. Stone (3) from W. Karlsson (1), A. Pietrangelo (1) |
-+-----------+--------------+----------------+---------------------+------------+---------+--------+-------------------------------------------------------+
++-----------+--------------+----------------+---------------------+------------+---------+--------+----------------------------------------------------+
+| GAME TYPE | PLAYOFF GAME | PLAYOFF SERIES | START TIME          | TEAMS      | SCORE   | STATUS | GAME-WINNING GOAL                                  |
++-----------+--------------+----------------+---------------------+------------+---------+--------+----------------------------------------------------+
+| Playoffs  | R1, GM 6     | VAN 4-2        | 03 May 24 16:00 PDT | VAN at NSH | 1-0 VAN | Final  | P. Suter (2) from B. Boeser (2), E. Pettersson (3) |
+| Playoffs  | R1, GM 6     | TIED 3-3       | 03 May 24 19:00 PDT | DAL at VGK | 2-0 VGK | Final  | N. Hanifin (2)                                     |
++-----------+--------------+----------------+---------------------+------------+---------+--------+----------------------------------------------------+
 ```
 
 ### Print scores for games played on a single day
@@ -62,23 +62,22 @@ who-scored on 2023-03-16
 
 #### Example output
 
-```
-+----------------+---------------------+------------+---------+------------+--------------------------------------------------------------+
-| GAME TYPE      | START TIME          | TEAMS      | SCORE   | STATUS     | GAME-WINNING GOAL                                            |
-+----------------+---------------------+------------+---------+------------+--------------------------------------------------------------+
-| Regular Season | 16 Mar 23 16:00 PDT | COL at OTT | 5-4 COL | Final      | B. Tkachuk (28) PPG from T. Stützle (42), J. Sanderson (24)  |
-| Regular Season | 16 Mar 23 16:00 PDT | MTL at FLA | 9-5 FLA | Final      | R. Pitlick (5) PPG from M. Matheson (16)                     |
-| Regular Season | 16 Mar 23 16:00 PDT | PIT at NYR | 4-2 NYR | Final      | C. Kreider (30) from V. Trocheck (35), M. Zibanejad (37)     |
-| Regular Season | 16 Mar 23 16:00 PDT | TBL at NJD | 4-3 TBL | Final (SO) | A. Killorn (22)                                              |
-| Regular Season | 16 Mar 23 17:00 PDT | BOS at WPG | 3-0 BOS | Final      | T. Nosek (6) from D. Pastrnak (44)                           |
-| Regular Season | 16 Mar 23 17:00 PDT | CHI at NSH | 2-1 CHI | Final      | R. Josi (18) from T. Novak (16), P. Tomasino (7)             |
-| Regular Season | 16 Mar 23 18:00 PDT | DAL at EDM | 4-1 EDM | Final      | M. Janmark (8)                                               |
-| Regular Season | 16 Mar 23 19:00 PDT | CGY at VGK | 7-2 CGY | Final      | D. Dube (18) from N. Zadorov (6), J. Huberdeau (32)          |
-| Regular Season | 16 Mar 23 19:00 PDT | VAN at ARI | 3-2 ARI | Final      | E. Pettersson (31) from A. Beauvillier (20), C. Garland (26) |
-| Regular Season | 16 Mar 23 19:30 PDT | CBJ at LAK | 4-1 LAK | Final      | K. Marchenko (17) from G. Bayreuther (9)                     |
-| Regular Season | 16 Mar 23 19:30 PDT | SEA at SJS | 2-1 SEA | Final (OT) | V. Dunn (13) from O. Bjorkstrand (22), J. McCann (20)        |
-+----------------+---------------------+------------+---------+------------+--------------------------------------------------------------+
-```
+````
++----------------+---------------------+------------+---------+------------+-------------------------------------------------------------+
+| GAME TYPE      | START TIME          | TEAMS      | SCORE   | STATUS     | GAME-WINNING GOAL                                           |
++----------------+---------------------+------------+---------+------------+-------------------------------------------------------------+
+| Regular Season | 16 Mar 23 16:00 PDT | COL at OTT | 5-4 COL | Final      | L. Eller (8)                                                |
+| Regular Season | 16 Mar 23 16:00 PDT | MTL at FLA | 9-5 FLA | Final      | S. Reinhart (24) from J. Mahura (11)                        |
+| Regular Season | 16 Mar 23 16:00 PDT | PIT at NYR | 4-2 NYR | Final      | C. Kreider (29) from V. Trocheck (34), A. Fox (51)          |
+| Regular Season | 16 Mar 23 16:00 PDT | TBL at NJD | 4-3 TBL | Final (SO) | A. Killorn (22)                                             |
+| Regular Season | 16 Mar 23 17:00 PDT | BOS at WPG | 3-0 BOS | Final      | T. Frederic (15) from T. Bertuzzi (13), C. Coyle (25)       |
+| Regular Season | 16 Mar 23 17:00 PDT | CHI at NSH | 2-1 CHI | Final      | J. Anderson (5) from B. Katchouk (7)                        |
+| Regular Season | 16 Mar 23 18:00 PDT | DAL at EDM | 4-1 EDM | Final      | M. Janmark (7) SHG from C. McDavid (74), V. Desharnais (5)  |
+| Regular Season | 16 Mar 23 19:00 PDT | CGY at VGK | 7-2 CGY | Final      | B. Coleman (15) from E. Lindholm (38), M. Weegar (20)       |
+| Regular Season | 16 Mar 23 19:00 PDT | VAN at ARI | 3-2 ARI | Final      | L. Crouse (22) PPG from V. Soderstrom (6), M. Maccelli (32) |
+| Regular Season | 16 Mar 23 19:30 PDT | CBJ at LAK | 4-1 LAK | Final      | A. Kopitar (26) from Q. Byfield (16), M. Anderson (13)      |
+| Regular Season | 16 Mar 23 19:30 PDT | SEA at SJS | 2-1 SEA | Final (OT) | V. Dunn (13) from O. Bjorkstrand (22), J. McCann (20)       |
++----------------+---------------------+------------+---------+------------+-------------------------------------------------------------+
 
 ## Install
 
@@ -94,5 +93,6 @@ The program can either be installed from a release artifact or built locally.
 1. Clone the repository:
    ```sh
     https://github.com/devkevbot/who-scored.git
-   ```
+````
+
 2. From the repository directory, build and install the project: `go install .`
