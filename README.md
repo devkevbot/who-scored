@@ -62,7 +62,7 @@ who-scored on 2023-03-16
 
 #### Example output
 
-````
+```
 +----------------+---------------------+------------+---------+------------+-------------------------------------------------------------+
 | GAME TYPE      | START TIME          | TEAMS      | SCORE   | STATUS     | GAME-WINNING GOAL                                           |
 +----------------+---------------------+------------+---------+------------+-------------------------------------------------------------+
@@ -78,6 +78,7 @@ who-scored on 2023-03-16
 | Regular Season | 16 Mar 23 19:30 PDT | CBJ at LAK | 4-1 LAK | Final      | A. Kopitar (26) from Q. Byfield (16), M. Anderson (13)      |
 | Regular Season | 16 Mar 23 19:30 PDT | SEA at SJS | 2-1 SEA | Final (OT) | V. Dunn (13) from O. Bjorkstrand (22), J. McCann (20)       |
 +----------------+---------------------+------------+---------+------------+-------------------------------------------------------------+
+```
 
 ## Install
 
@@ -93,6 +94,9 @@ The program can either be installed from a release artifact or built locally.
 1. Clone the repository:
    ```sh
     https://github.com/devkevbot/who-scored.git
-````
+   ```
+
+```
 
 2. From the repository directory, build and install the project: `go install .`
+```
