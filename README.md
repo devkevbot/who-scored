@@ -92,11 +92,9 @@ The program can either be installed from a release artifact or built locally.
 ### Building from source
 
 1. Clone the repository:
+
    ```sh
     https://github.com/devkevbot/who-scored.git
    ```
 
-```
-
 2. From the repository directory, build and install the project: `go install .`
-```
