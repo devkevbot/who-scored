@@ -254,6 +254,10 @@ func (g *Game) getPlayoffSeriesStatus() string {
 }
 
 func (g *Game) getGameWinningGoal() string {
+	if g.getStatus() != "FINAL" {
+		return ""
+	}
+
 	if len(g.Goals) == 0 {
 		return "(No Score)"
 	}
