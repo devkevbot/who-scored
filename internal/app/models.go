@@ -244,8 +244,8 @@ func (g *Game) isOver() bool {
 
 func (g *Game) statusCol() string {
 	gameStateToDesc := map[string]string{
-		"CRIT":  "In-progress",
-		"LIVE":  "In-progress",
+		"CRIT":  "In progress",
+		"LIVE":  "In progress",
 		"FUT":   "Not started",
 		"PRE":   "Pre-game",
 		"OFF":   "Final",
@@ -253,8 +253,6 @@ func (g *Game) statusCol() string {
 	}
 
 	var output []string
-
-	fmt.Println(g.GameState)
 
 	gameStateDesc := gameStateToDesc[g.GameState]
 	output = append(output, gameStateDesc)
