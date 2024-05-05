@@ -250,7 +250,7 @@ func (g *Game) getPlayoffSeriesStatus() string {
 	if g.SeriesStatus.TopSeedWins > g.SeriesStatus.BottomSeedWins {
 		return fmt.Sprintf("%s %d-%d", g.SeriesStatus.TopSeedTeamAbbrev, g.SeriesStatus.TopSeedWins, g.SeriesStatus.BottomSeedWins)
 	}
-	return fmt.Sprintf("%s %d-%d", g.SeriesStatus.BottomSeedTeamAbbrev, g.SeriesStatus.TopSeedWins, g.SeriesStatus.BottomSeedWins)
+	return fmt.Sprintf("%s %d-%d", g.SeriesStatus.BottomSeedTeamAbbrev, g.SeriesStatus.BottomSeedWins, g.SeriesStatus.TopSeedWins)
 }
 
 func (g *Game) getGameWinningGoal() string {
