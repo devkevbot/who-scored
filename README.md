@@ -1,6 +1,6 @@
 # who-scored
 
-`who-scored` is a command-line application that finds and displays scores for NHL games.
+`who-scored` is a command line application that displays scores for National Hockey League games. 
 
 ## Usage
 
