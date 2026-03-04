@@ -27,6 +27,7 @@ var onCmd = &cobra.Command{
 		if teamFilter != "" {
 			scores.FilterByTeam(teamFilter)
 		}
+		scores.Short = shortOutput
 		fmt.Println(scores)
 		return nil
 	},

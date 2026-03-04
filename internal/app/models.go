@@ -10,6 +10,7 @@ import (
 
 type DailyScores struct {
 	Games []Game `json:"games"`
+	Short bool   `json:"-"`
 }
 
 func (ds *DailyScores) FilterByTeam(abbrev string) {
@@ -35,19 +36,25 @@ func (ds *DailyScores) toTable() string {
 	t := table.NewWriter()
 	t.SuppressEmptyColumns()
 
-	t.AppendHeader(table.Row{
-		"GAME TYPE",
-		"PLAYOFF GAME",
-		"PLAYOFF SERIES",
-		"START TIME",
-		"TEAMS",
-		"SCORE",
-		"STATUS",
-		"GAME-WINNING GOAL",
-	})
-
-	for _, game := range ds.Games {
-		t.AppendRow(game.toRow())
+	if ds.Short {
+		t.AppendHeader(table.Row{"TEAMS", "SCORE", "STATUS"})
+		for _, game := range ds.Games {
+			t.AppendRow(table.Row{game.teamsCol(), game.scoreCol(), game.statusCol()})
+		}
+	} else {
+		t.AppendHeader(table.Row{
+			"GAME TYPE",
+			"PLAYOFF GAME",
+			"PLAYOFF SERIES",
+			"START TIME",
+			"TEAMS",
+			"SCORE",
+			"STATUS",
+			"GAME-WINNING GOAL",
+		})
+		for _, game := range ds.Games {
+			t.AppendRow(game.toRow())
+		}
 	}
 
 	return t.Render()
