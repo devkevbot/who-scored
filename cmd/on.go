@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"log"
+	"strings"
 
 	"github.com/devkevbot/who-scored/internal/api"
 	"github.com/devkevbot/who-scored/internal/app"
@@ -14,13 +15,20 @@ var onCmd = &cobra.Command{
 	Use:   "on <date>",
 	Args:  validateArgsOn,
 	Short: "Find scores for NHL games scheduled for a specific date",
-	Run: func(cmd *cobra.Command, args []string) {
+	RunE: func(cmd *cobra.Command, args []string) error {
+		if teamFilter != "" && !app.IsValidTeam(teamFilter) {
+			return fmt.Errorf("invalid team abbreviation %q; valid teams: %s", teamFilter, strings.Join(app.ValidTeamAbbrevs(), ", "))
+		}
 		inputDate := args[0]
 		scores, err := api.GetScoresForSingleDay(inputDate)
 		if err != nil {
 			log.Fatal(err)
 		}
+		if teamFilter != "" {
+			scores.FilterByTeam(teamFilter)
+		}
 		fmt.Println(scores)
+		return nil
 	},
 }
 

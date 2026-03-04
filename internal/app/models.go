@@ -12,6 +12,17 @@ type DailyScores struct {
 	Games []Game `json:"games"`
 }
 
+func (ds *DailyScores) FilterByTeam(abbrev string) {
+	upper := strings.ToUpper(abbrev)
+	filtered := ds.Games[:0]
+	for _, g := range ds.Games {
+		if strings.ToUpper(g.AwayTeam.Abbrev) == upper || strings.ToUpper(g.HomeTeam.Abbrev) == upper {
+			filtered = append(filtered, g)
+		}
+	}
+	ds.Games = filtered
+}
+
 func (ds *DailyScores) String() string {
 	if len(ds.Games) == 0 {
 		return "No game data was available for the requested date(s)."
